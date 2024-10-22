@@ -14,6 +14,7 @@ namespace Galaga.Model
         #region Data members
 
         private readonly List<EnemyShip> enemyShips;
+        private readonly List<GameObject> listOfShips;
         private readonly List<GameObject> missiles;
 
         private const double PlayerOffsetFromBottom = 30;
@@ -27,6 +28,7 @@ namespace Galaga.Model
         private int playerMissileCount;
 
         private Player player;
+        private Physics physics;
 
         #endregion
 
@@ -44,6 +46,7 @@ namespace Galaga.Model
             this.canvasWidth = canvas.Width;
 
             this.enemyShips = new List<EnemyShip>();
+            this.listOfShips = new List<GameObject>();
             this.missiles = new List<GameObject>();
 
             this.initializeGame();
@@ -51,6 +54,7 @@ namespace Galaga.Model
             this.tickCounter = 0;
             this.playerMissileCount = 0;
             this.random = new Random();
+            this.physics = new Physics();
 
             this.timer = new DispatcherTimer();
             this.timer.Interval = new TimeSpan(0, 0, 0, 0, 50);
@@ -61,14 +65,17 @@ namespace Galaga.Model
         private void timer_Tick(object sender, object e)
         {
             this.enemyFireMissiles();
+            this.physics.CheckMissileBoundary(this.missiles, this.canvas);
             this.moveEnemyShips();
             this.moveMissiles();
             this.tickCounter++;
             
-            if (this.tickCounter >= 20)
+            if (this.tickCounter >= 40)
             {
                 this.tickCounter = 0;
             }
+
+            this.checkForCollisions();
         }
 
         #endregion
@@ -85,6 +92,7 @@ namespace Galaga.Model
         {
             this.player = new Player();
             this.canvas.Children.Add(this.player.Sprite);
+            this.listOfShips.Add(this.player);
 
             this.placePlayerNearBottomOfBackgroundCentered();
         }
@@ -163,15 +171,15 @@ namespace Galaga.Model
         {
             foreach (var ship in this.enemyShips)
             {
-                if (this.tickCounter < 5)
+                if (this.tickCounter < 10)
                 {
                     ship.MoveLeft();
                 }
-                else if (this.tickCounter < 15)
+                else if (this.tickCounter < 30)
                 {
                     ship.MoveRight();
                 }
-                else if (this.tickCounter < 20)
+                else if (this.tickCounter < 40)
                 {
                     ship.MoveLeft();
                 }
@@ -226,14 +234,32 @@ namespace Galaga.Model
                         this.missiles.Add(missile);
                         break;
                     }
+                }
+            }
+        }
 
-                    //if (enemyShip is EnemyLevel3)
-                    //{
-                    //    var missile = enemyShip.FireMissile();
-                    //    this.canvas.Children.Add(missile.Sprite);
-                    //    this.missiles.Add(missile);
-                    //    break;
-                    //}
+        private void checkForCollisions()
+        {
+            List<GameObject> objectsToRemove = this.physics.CheckCollisions(this.listOfShips, this.missiles);
+
+            foreach (var obj in objectsToRemove)
+            {
+                this.canvas.Children.Remove(obj.Sprite);
+
+                if (obj is PlayerMissile)
+                {
+                    this.playerMissileCount--;
+                }
+                this.missiles.Remove(obj);
+                if (obj is EnemyShip)
+                {
+                    this.enemyShips.Remove((EnemyShip) obj);
+                    this.listOfShips.Remove(obj);
+                }
+                if (obj is Player)
+                {
+                    this.listOfShips.Remove(obj);
+                    this.timer.Stop();
                 }
             }
         }
