@@ -16,7 +16,7 @@ namespace Galaga.Model
         /// </summary>
         public PlayerMissile()
         {
-            Sprite = new PlayerMissile();
+            Sprite = new PlayerMissileSprite();
             SetSpeed(SpeedXDirection, SpeedYDirection);
         }
     }
