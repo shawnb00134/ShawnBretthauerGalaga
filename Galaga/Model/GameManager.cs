@@ -173,10 +173,7 @@ namespace Galaga.Model
         /// </summary>
         public void FireMissile()
         {
-            if (!this.canvas.Children.OfType<PlayerMissile>().Any())
-            {
-                
-            }
+
         }
 
         #endregion

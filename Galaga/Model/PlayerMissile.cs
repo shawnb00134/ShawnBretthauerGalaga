@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Galaga.View.Sprites;
 
 namespace Galaga.Model
 {
@@ -10,17 +6,17 @@ namespace Galaga.Model
     /// Player missle class
     /// </summary>
     /// <seealso cref="Galaga.Model.GameObject" />
-    public class PlayerMissle : GameObject
+    public class PlayerMissile : GameObject
     {
         private const int SpeedXDirection = 0;
         private const int SpeedYDirection = 5;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PlayerMissle"/> class.
+        /// Initializes a new instance of the <see cref="PlayerMissile"/> class.
         /// </summary>
-        public PlayerMissle()
+        public PlayerMissile()
         {
-            Sprite = new PlayerMissle();
+            Sprite = new PlayerMissile();
             SetSpeed(SpeedXDirection, SpeedYDirection);
         }
     }

@@ -9,7 +9,7 @@ namespace Galaga.View.Sprites
     /// <seealso cref="Galaga.View.Sprites.BaseSprite" />
     /// <seealso cref="Windows.UI.Xaml.Markup.IComponentConnector" />
     /// <seealso cref="Windows.UI.Xaml.Markup.IComponentConnector2" />
-    public sealed partial class PlayerMissile: BaseSprite
+    public partial class PlayerMissile: BaseSprite
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PlayerMissile"/> class.
