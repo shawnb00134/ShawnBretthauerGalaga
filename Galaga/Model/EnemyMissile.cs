@@ -3,25 +3,25 @@
 namespace Galaga.Model
 {
     /// <summary>
-    /// EnemyMissle class.
+    /// EnemyMissile class.
     /// </summary>
-    public class EnemyMissle : GameObject
+    public class EnemyMissile : GameObject
     {
         #region Data members
 
         private const int SpeedXDirection = 0;
-        private const int SpeedYDirection = 3;
+        private const int SpeedYDirection = 8;
 
         #endregion
 
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="EnemyMissle"/> class.
+        /// Initializes a new instance of the <see cref="EnemyMissile"/> class.
         /// </summary>
-        public EnemyMissle()
+        public EnemyMissile()
         {
-            Sprite = new EnemyMissile();
+            Sprite = new View.Sprites.EnemyMissile();
             SetSpeed(SpeedXDirection, SpeedYDirection);
         }
 

@@ -1,5 +1,5 @@
-﻿//using Galaga.View.Sprites;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -13,13 +13,18 @@ namespace Galaga.Model
     {
         #region Data members
 
+        private readonly List<EnemyShip> enemyShips;
+        private readonly List<GameObject> missiles;
+
         private const double PlayerOffsetFromBottom = 30;
         private readonly Canvas canvas;
         private readonly double canvasHeight;
         private readonly double canvasWidth;
 
+        private readonly Random random;
         private readonly DispatcherTimer timer;
         private int tickCounter;
+        private int playerMissileCount;
 
         private Player player;
 
@@ -38,9 +43,14 @@ namespace Galaga.Model
             this.canvasHeight = canvas.Height;
             this.canvasWidth = canvas.Width;
 
+            this.enemyShips = new List<EnemyShip>();
+            this.missiles = new List<GameObject>();
+
             this.initializeGame();
 
             this.tickCounter = 0;
+            this.playerMissileCount = 0;
+            this.random = new Random();
 
             this.timer = new DispatcherTimer();
             this.timer.Interval = new TimeSpan(0, 0, 0, 0, 50);
@@ -50,7 +60,9 @@ namespace Galaga.Model
 
         private void timer_Tick(object sender, object e)
         {
+            this.enemyFireMissiles();
             this.moveEnemyShips();
+            this.moveMissiles();
             this.tickCounter++;
             
             if (this.tickCounter >= 20)
@@ -67,7 +79,6 @@ namespace Galaga.Model
         {
             this.createAndPlacePlayer();
             this.createAndPlaceEnemyShip();
-            System.Diagnostics.Debug.WriteLine("initialized");
         }
 
         private void createAndPlacePlayer()
@@ -80,7 +91,6 @@ namespace Galaga.Model
 
         private void createAndPlaceEnemyShip()
         {
-            System.Diagnostics.Debug.WriteLine("move");
             double canvasWidth = this.canvas.Width;
             int[] enemiesPerRow = { 2, 3, 4 };
             double startY = 200;
@@ -108,10 +118,11 @@ namespace Galaga.Model
                     }
 
                     this.canvas.Children.Add(enemyShip.Sprite);
+                    this.enemyShips.Add(enemyShip);
 
                     double xPosition = (i + 1) * spacing - enemyShip.Width / 2.0;
-                    Canvas.SetLeft(enemyShip.Sprite, xPosition);
-                    Canvas.SetTop(enemyShip.Sprite, startY - rowIndex * rowSpacing);
+                    enemyShip.X = xPosition;
+                    enemyShip.Y = startY - rowIndex * rowSpacing;
                 }
             }
         }
@@ -150,8 +161,7 @@ namespace Galaga.Model
 
         private void moveEnemyShips()
         {
-            //TODO: var ship is being set to null. Ask why
-            foreach (var ship in this.canvas.Children.OfType<EnemyShip>())
+            foreach (var ship in this.enemyShips)
             {
                 if (this.tickCounter < 5)
                 {
@@ -173,7 +183,59 @@ namespace Galaga.Model
         /// </summary>
         public void FireMissile()
         {
+            if (this.playerMissileCount == 0)
+            {
+                this.playerMissileCount++;
 
+                var missile = new PlayerMissile();
+                missile.X = this.player.X + this.player.Width / 2.0 - missile.Width / 2.0;
+                missile.Y = this.player.Y - missile.Height;
+                this.canvas.Children.Add(missile.Sprite);
+                this.missiles.Add(missile);
+            }
+        }
+
+        private void moveMissiles()
+        {
+            foreach (var missile in this.missiles)
+            {
+                if (missile is PlayerMissile)
+                {
+                    missile.MoveUp();
+                }
+                else
+                {
+                    missile.MoveDown();
+                }
+                
+            }
+        }
+
+        private void enemyFireMissiles()
+        {
+            if (this.random.Next(30) == 0)
+            {
+                foreach (var enemyShip in this.enemyShips)
+                {
+                    var eleigibleShips = this.enemyShips.Where(ship => ship is EnemyLevel3).ToList();
+                    if (eleigibleShips.Any())
+                    {
+                        var randomShip = eleigibleShips.ElementAt(this.random.Next(eleigibleShips.Count));
+                        var missile = randomShip.FireMissile();
+                        this.canvas.Children.Add(missile.Sprite);
+                        this.missiles.Add(missile);
+                        break;
+                    }
+
+                    //if (enemyShip is EnemyLevel3)
+                    //{
+                    //    var missile = enemyShip.FireMissile();
+                    //    this.canvas.Children.Add(missile.Sprite);
+                    //    this.missiles.Add(missile);
+                    //    break;
+                    //}
+                }
+            }
         }
 
         #endregion

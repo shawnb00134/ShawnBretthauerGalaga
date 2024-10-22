@@ -124,7 +124,7 @@
     <Compile Include="Model\EnemyLevel1.cs" />
     <Compile Include="Model\EnemyLevel2.cs" />
     <Compile Include="Model\EnemyLevel3.cs" />
-    <Compile Include="Model\EnemyMissle.cs" />
+    <Compile Include="Model\EnemyMissile.cs" />
     <Compile Include="Model\EnemyShip.cs" />
     <Compile Include="Model\GameManager.cs" />
     <Compile Include="Model\GameObject.cs" />

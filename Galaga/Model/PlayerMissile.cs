@@ -3,7 +3,7 @@
 namespace Galaga.Model
 {
     /// <summary>
-    /// Player missle class
+    /// Player missile class
     /// </summary>
     /// <seealso cref="Galaga.Model.GameObject" />
     public class PlayerMissile : GameObject

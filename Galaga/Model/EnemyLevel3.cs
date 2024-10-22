@@ -1,4 +1,5 @@
-﻿using Galaga.View.Sprites;
+﻿using System;
+using Galaga.View.Sprites;
 
 namespace Galaga.Model
 {
@@ -29,9 +30,12 @@ namespace Galaga.Model
         /// <summary>
         /// Fires the missile.
         /// </summary>
-        public void FireMissile()
+        public override EnemyMissile FireMissile()
         {
-            
+            var missile = new EnemyMissile();
+            missile.X = this.X + this.Width / 2.0 - missile.Width / 2.0;
+            missile.Y = this.Y + this.Height;
+            return missile;
         }
 
         #endregion

@@ -26,6 +26,14 @@ namespace Galaga.Model
             SetSpeed(SpeedXDirection, SpeedYDirection);
         }
 
+        public virtual EnemyMissile FireMissile()
+        {
+            var missile = new EnemyMissile();
+            missile.X = this.X + this.Width / 2.0 - missile.Width / 2.0;
+            missile.Y = this.Y + this.Height;
+            return missile;
+        }
+
         #endregion
 
     }
