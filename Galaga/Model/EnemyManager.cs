@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Windows.UI.Notifications;
 using Windows.UI.Xaml.Controls;
 
 namespace Galaga.Model
@@ -27,11 +28,11 @@ namespace Galaga.Model
         {
             List<EnemyShip> enemyShips = new List<EnemyShip>();
 
-            double canvasWidth = this.canvas.Width;
-            int[] enemiesPerRow = { 2, 3, 4 };
-            const double startY = 200;
             const double rowSpacing = 100;
-
+            double canvasWidth = this.canvas.Width;
+            double startY = this.canvas.Height / 2;
+            int[] enemiesPerRow = { 2, 3, 4 };
+            
             for (int rowIndex = 0; rowIndex < enemiesPerRow.Length; rowIndex++)
             {
                 int enemyCount = enemiesPerRow[rowIndex];
