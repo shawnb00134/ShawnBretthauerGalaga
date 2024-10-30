@@ -1,6 +1,4 @@
-﻿using Galaga.View.Sprites;
-
-namespace Galaga.Model
+﻿namespace Galaga.Model
 {
     /// <summary>
     /// EnemyMissile class.
@@ -10,7 +8,7 @@ namespace Galaga.Model
         #region Data members
 
         private const int SpeedXDirection = 0;
-        private const int SpeedYDirection = 8;
+        private const int SpeedYDirection = 12;
 
         #endregion
 

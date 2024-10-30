@@ -7,40 +7,40 @@ using Windows.UI.Xaml.Controls;
 namespace Galaga.Model
 {
     /// <summary>
-    /// Manages the Galaga game play.
+    ///     Manages the Galaga game play.
     /// </summary>
     public class GameManager
     {
         #region Data members
 
+        private const double PlayerOffsetFromBottom = 30;
+        private const int PlayerSpeedBoundary = 3;
+        private const int TickTimer = 50;
+        private const int TickCounterReset = 40;
+        private const int PlayerMissileLimit = 1;
+
         private List<EnemyShip> enemyShips;
         private readonly List<GameObject> listOfShips;
         private readonly List<GameObject> missiles;
-
-        private const double PlayerOffsetFromBottom = 30;
-        private const int PlayerSpeedBoundary = 3;
         private readonly Canvas canvas;
         private readonly double canvasHeight;
         private readonly double canvasWidth;
 
         private readonly Random random;
         private readonly DispatcherTimer timer;
-        private const int tickTimer = 50;
         private int tickCounter;
-        private const int tickCounterReset = 40;
         private int playerMissileCount;
 
         private Player player;
-        private Physics physics;
-        private EnemyManager enemyManager;
-
+        private readonly Physics physics;
+        private readonly EnemyManager enemyManager;
 
         #endregion
 
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GameManager"/> class.
+        ///     Initializes a new instance of the <see cref="GameManager" /> class.
         /// </summary>
         public GameManager(Canvas canvas)
         {
@@ -63,36 +63,36 @@ namespace Galaga.Model
             this.physics = new Physics();
 
             this.timer = new DispatcherTimer();
-            this.timer.Interval = new TimeSpan(0, 0, 0, 0, tickTimer);
+            this.timer.Interval = new TimeSpan(0, 0, 0, 0, TickTimer);
             this.timer.Tick += this.timer_Tick;
             this.timer.Start();
-        }
-
-        private void timer_Tick(object sender, object e)
-        {
-            this.enemyFireMissiles();
-            this.physics.CheckMissileBoundary(this.missiles, this.canvas);
-            this.enemyManager.MoveEnemyShips(this.enemyShips, this.tickCounter);
-            this.moveMissiles();
-            this.tickCounter++;
-            
-            if (this.tickCounter >= tickCounterReset)
-            {
-                this.tickCounter = 0;
-            }
-
-            this.checkForCollisions();
         }
 
         #endregion
 
         #region Methods
 
+        private void timer_Tick(object sender, object e)
+        {
+            this.enemyFireMissiles();
+
+            this.enemyManager.MoveEnemyShips(this.enemyShips, this.tickCounter);
+            this.moveMissiles();
+            this.tickCounter++;
+
+            if (this.tickCounter >= TickCounterReset)
+            {
+                this.tickCounter = 0;
+            }
+
+            this.checkForMissileOutOfBounds();
+            this.checkForCollisions();
+        }
+
         private void initializeGame()
         {
             this.createAndPlacePlayer();
-            //this.createAndPlaceEnemyShip();
-            this.enemyShips = this.enemyManager.CreateAndPlaceEnemyShip();
+            this.createEnemyShips();
         }
 
         private void createAndPlacePlayer()
@@ -104,7 +104,15 @@ namespace Galaga.Model
             this.placePlayerNearBottomOfBackgroundCentered();
         }
 
-        
+        private void createEnemyShips()
+        {
+            this.enemyShips = this.enemyManager.CreateAndPlaceEnemyShip();
+
+            foreach (var enemyShip in this.enemyShips)
+            {
+                this.listOfShips.Add(enemyShip);
+            }
+        }
 
         private void placePlayerNearBottomOfBackgroundCentered()
         {
@@ -113,20 +121,20 @@ namespace Galaga.Model
         }
 
         /// <summary>
-        /// Moves the player left.
+        ///     Moves the player left.
         /// </summary>
         public void MovePlayerLeft()
         {
-            if (this.player.X <= 3)
+            if (this.player.X <= PlayerSpeedBoundary)
             {
-                this.player.X = 3;
+                this.player.X = PlayerSpeedBoundary;
             }
 
             this.player.MoveLeft();
         }
 
         /// <summary>
-        /// Moves the player right.
+        ///     Moves the player right.
         /// </summary>
         public void MovePlayerRight()
         {
@@ -136,14 +144,15 @@ namespace Galaga.Model
             }
 
             this.player.MoveRight();
-        }     
+        }
 
         /// <summary>
-        /// Fires the missile.
+        ///     Fires the missile.
         /// </summary>
         public void FireMissile()
         {
-            if (this.playerMissileCount == 0)
+            System.Diagnostics.Debug.WriteLine(this.playerMissileCount + " " + PlayerMissileLimit);
+            if (this.playerMissileCount < PlayerMissileLimit)
             {
                 this.playerMissileCount++;
 
@@ -153,6 +162,7 @@ namespace Galaga.Model
                 this.canvas.Children.Add(missile.Sprite);
                 this.missiles.Add(missile);
             }
+            System.Diagnostics.Debug.WriteLine(this.playerMissileCount + " " + PlayerMissileLimit);
         }
 
         private void moveMissiles()
@@ -167,12 +177,12 @@ namespace Galaga.Model
                 {
                     missile.MoveDown();
                 }
-                
             }
         }
 
         private void enemyFireMissiles()
         {
+            //TODO: Fix the ToList issue
             if (this.random.Next(30) == 0)
             {
                 foreach (var enemyShip in this.enemyShips)
@@ -192,27 +202,51 @@ namespace Galaga.Model
 
         private void checkForCollisions()
         {
-            List<GameObject> objectsToRemove = this.physics.CheckCollisions(this.listOfShips, this.missiles);
+            var objectsToRemove = this.physics.CheckCollisions(this.listOfShips, this.missiles);
+            this.removeObjectsFromCanvas(objectsToRemove);
+        }
 
+        private void checkForMissileOutOfBounds()
+        {
+            var objectsToRemove = new List<GameObject>();
+
+            foreach (var missile in this.missiles)
+            {
+                if (this.physics.CheckMissileBoundary(missile, this.canvas))
+                {
+                    objectsToRemove.Add(missile);
+                }
+            }
+
+            this.removeObjectsFromCanvas(objectsToRemove);
+        }
+
+        private void removeObjectsFromCanvas(List<GameObject> objectsToRemove)
+        {
             foreach (var obj in objectsToRemove)
             {
-                this.canvas.Children.Remove(obj.Sprite);
+                if (obj is Player)
+                {
+                    this.timer.Stop();
+                }
+
+                if (obj is EnemyShip)
+                {
+                    this.enemyShips.Remove((EnemyShip)obj);
+                    this.listOfShips.Remove(obj);
+                }
+
+                if (obj is EnemyMissile || obj is PlayerMissile)
+                {
+                    this.missiles.Remove(obj);
+                }
 
                 if (obj is PlayerMissile)
                 {
                     this.playerMissileCount--;
                 }
-                this.missiles.Remove(obj);
-                if (obj is EnemyShip)
-                {
-                    this.enemyShips.Remove((EnemyShip) obj);
-                    this.listOfShips.Remove(obj);
-                }
-                if (obj is Player)
-                {
-                    this.listOfShips.Remove(obj);
-                    this.timer.Stop();
-                }
+
+                this.canvas.Children.Remove(obj.Sprite);
             }
         }
 

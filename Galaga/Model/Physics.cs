@@ -1,40 +1,39 @@
-﻿using Galaga.View.Sprites;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 
 namespace Galaga.Model
 {
     /// <summary>
-    /// A simple physics class to check for collisions.
+    ///     A simple physics class to check for collisions.
     /// </summary>
     public class Physics
     {
+        #region Methods
+
         /// <summary>
-        /// Checks the collisions.
+        ///     Checks the collisions.
         /// </summary>
         /// <param name="listOfShips">The enemy ships.</param>
         /// <param name="missiles">The missiles.</param>
         public List<GameObject> CheckCollisions(List<GameObject> listOfShips, List<GameObject> missiles)
         {
-            List<GameObject> objectsToRemove = new List<GameObject>();
+            var objectsToRemove = new List<GameObject>();
 
             foreach (var ship in listOfShips)
             {
                 foreach (var missile in missiles)
                 {
-                    if (!(ship is EnemyShip) && !(missile is EnemyMissile))
+                    if (!(ship is EnemyShip && missile is EnemyMissile))
                     {
-                        if (IsColliding(ship, missile))
+                        System.Diagnostics.Debug.WriteLine("Not enemy ship and missile");
+                        if (this.isColliding(ship, missile))
                         {
                             if (!objectsToRemove.Contains(ship))
                             {
                                 objectsToRemove.Add(ship);
                             }
+
                             if (!objectsToRemove.Contains(missile))
                             {
                                 objectsToRemove.Add(missile);
@@ -43,37 +42,40 @@ namespace Galaga.Model
                     }
                 }
             }
+            
             return objectsToRemove;
         }
 
-        private bool IsColliding(GameObject ship, GameObject missile)
+        private bool isColliding(GameObject ship, GameObject missile)
         {
-            Rectangle shipRectangle = new Rectangle((int)ship.X,(int)ship.Y, (int)ship.Width, (int)ship.Height);
-            Rectangle missileRectangle = new Rectangle((int)missile.X, (int)missile.Y, (int)missile.Width, (int)missile.Height);
+            var shipRectangle = new Rectangle((int)ship.X, (int)ship.Y, (int)ship.Width, (int)ship.Height);
+            var missileRectangle =
+                new Rectangle((int)missile.X, (int)missile.Y, (int)missile.Width, (int)missile.Height);
 
             return shipRectangle.IntersectsWith(missileRectangle);
         }
 
         /// <summary>
-        /// Checks the missile boundary.
+        ///     Checks the missile boundary.
         /// </summary>
-        /// <param name="missiles">The missiles.</param>
+        /// <param name="missile">The missiles.</param>
         /// <param name="canvas">The canvas.</param>
         /// <returns></returns>
-        public bool CheckMissileBoundary(List<GameObject> missiles, Canvas canvas)
+        public bool CheckMissileBoundary(GameObject missile, Canvas canvas)
         {
-            foreach (var missile in missiles)
+            if (missile is EnemyMissile && missile.Y > canvas.Height)
             {
-                if (missile is EnemyMissile && missile.Y > canvas.Height)
-                {
-                    return true;
-                }
-                if (missile is PlayerMissile && missile.Y < 0)
-                {
-                    return true;
-                }
+                return true;
             }
+
+            if (missile is PlayerMissile && missile.Y < 0)
+            {
+                return true;
+            }
+
             return false;
         }
+
+        #endregion
     }
 }

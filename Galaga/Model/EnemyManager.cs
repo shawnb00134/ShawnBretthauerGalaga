@@ -1,27 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using Windows.UI.Xaml;
+﻿using System.Collections.Generic;
 using Windows.UI.Xaml.Controls;
 
 namespace Galaga.Model
 {
+    /// <summary>
+    /// EnenemyManager class.
+    /// </summary>
     public class EnemyManager
     {
-        private Canvas canvas;
+        private readonly Canvas canvas;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EnemyManager"/> class.
+        /// </summary>
+        /// <param name="canvas">The canvas.</param>
         public EnemyManager(Canvas canvas)
         {
             this.canvas = canvas;
         }
 
+        /// <summary>
+        /// Creates and places the enemy ships.
+        /// </summary>
+        /// <returns></returns>
         public List<EnemyShip> CreateAndPlaceEnemyShip()
         {
             List<EnemyShip> enemyShips = new List<EnemyShip>();
 
             double canvasWidth = this.canvas.Width;
             int[] enemiesPerRow = { 2, 3, 4 };
-            double startY = 200;
-            double rowSpacing = 100;
+            const double startY = 200;
+            const double rowSpacing = 100;
 
             for (int rowIndex = 0; rowIndex < enemiesPerRow.Length; rowIndex++)
             {
@@ -66,24 +75,21 @@ namespace Galaga.Model
             
             foreach (var ship in enemyShips)
             {
-                if (ship == null)
+                if (ship != null)
                 {
-                    System.Diagnostics.Debug.WriteLine(tickCounter);
+                    if (tickCounter < 10)
+                    {
+                        ship.MoveLeft();
+                    }
+                    else if (tickCounter < 30)
+                    {
+                        ship.MoveRight();
+                    }
+                    else if (tickCounter < 40)
+                    {
+                        ship.MoveLeft();
+                    }
                 }
-
-                if (tickCounter < 10)
-                {
-                    ship.MoveLeft();
-                }
-                else if (tickCounter < 30)
-                {
-                    ship.MoveRight();
-                }
-                else if (tickCounter < 40)
-                {
-                    ship.MoveLeft();
-                }
-                
             }
         }
     }

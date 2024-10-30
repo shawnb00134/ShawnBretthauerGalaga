@@ -3,7 +3,7 @@
 namespace Galaga.Model
 {
     /// <summary>
-    /// Abstract class for enemy ships.
+    ///     Abstract class for enemy ships.
     /// </summary>
     /// <seealso cref="Galaga.Model.GameObject" />
     public abstract class EnemyShip : GameObject
@@ -18,7 +18,7 @@ namespace Galaga.Model
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="EnemyShip"/> class.
+        ///     Initializes a new instance of the <see cref="EnemyShip" /> class.
         /// </summary>
         protected EnemyShip()
         {
@@ -26,15 +26,22 @@ namespace Galaga.Model
             SetSpeed(SpeedXDirection, SpeedYDirection);
         }
 
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Fires the missile.
+        /// </summary>
+        /// <returns></returns>
         public virtual EnemyMissile FireMissile()
         {
             var missile = new EnemyMissile();
-            missile.X = this.X + this.Width / 2.0 - missile.Width / 2.0;
-            missile.Y = this.Y + this.Height;
+            missile.X = X + Width / 2.0 - missile.Width / 2.0;
+            missile.Y = Y + Height;
             return missile;
         }
 
         #endregion
-
     }
 }

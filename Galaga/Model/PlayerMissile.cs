@@ -9,7 +9,7 @@ namespace Galaga.Model
     public class PlayerMissile : GameObject
     {
         private const int SpeedXDirection = 0;
-        private const int SpeedYDirection = 5;
+        private const int SpeedYDirection = 10;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PlayerMissile"/> class.

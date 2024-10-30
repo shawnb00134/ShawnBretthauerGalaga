@@ -8,7 +8,7 @@ namespace Galaga.View.Sprites
     /// <seealso cref="Galaga.View.Sprites.BaseSprite" />
     /// <seealso cref="Windows.UI.Xaml.Markup.IComponentConnector" />
     /// <seealso cref="Windows.UI.Xaml.Markup.IComponentConnector2" />
-    public partial class PlayerSprite : BaseSprite
+    public partial class PlayerSprite
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PlayerSprite"/> class.
