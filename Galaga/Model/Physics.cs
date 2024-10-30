@@ -9,7 +9,7 @@ namespace Galaga.Model
     /// </summary>
     public class Physics
     {
-        #region Methods
+        #region Methods 
 
         /// <summary>
         ///     Checks the collisions.
