@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Galaga.View;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Windows.UI.Xaml;
@@ -25,6 +26,7 @@ namespace Galaga.Model
         private readonly Canvas canvas;
         private readonly double canvasHeight;
         private readonly double canvasWidth;
+        private readonly GameCanvas gameCanvas;
 
         private readonly Random random;
         private readonly DispatcherTimer timer;
@@ -42,9 +44,10 @@ namespace Galaga.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="GameManager" /> class.
         /// </summary>
-        public GameManager(Canvas canvas)
+        public GameManager(Canvas canvas, GameCanvas gameCanvas)
         {
             this.canvas = canvas ?? throw new ArgumentNullException(nameof(canvas));
+            this.gameCanvas = gameCanvas ?? throw new ArgumentNullException(nameof(gameCanvas));
 
             this.canvas = canvas;
             this.canvasHeight = canvas.Height;
@@ -251,16 +254,18 @@ namespace Galaga.Model
             }
         }
 
-        private checkForEndGame()
+        private void checkForEndGame()
         {
             if (!this.listOfShips.Contains(this.player))
             {
                 this.timer.Stop();
+                this.gameCanvas.displayYouLoseText();
             }
 
             if (!this.enemyShips.Any())
             {
                 this.timer.Stop();
+                this.gameCanvas.displayYouWinText();
             }
         }
 
