@@ -227,7 +227,7 @@ namespace Galaga.Model
             {
                 if (obj is Player)
                 {
-                    this.timer.Stop();
+                    this.listOfShips.Remove(obj);
                 }
 
                 if (obj is EnemyShip)
@@ -247,6 +247,20 @@ namespace Galaga.Model
                 }
 
                 this.canvas.Children.Remove(obj.Sprite);
+                this.checkForEndGame();
+            }
+        }
+
+        private checkForEndGame()
+        {
+            if (!this.listOfShips.Contains(this.player))
+            {
+                this.timer.Stop();
+            }
+
+            if (!this.enemyShips.Any())
+            {
+                this.timer.Stop();
             }
         }
 
