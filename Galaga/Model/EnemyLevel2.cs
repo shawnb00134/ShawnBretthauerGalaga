@@ -3,7 +3,7 @@
 namespace Galaga.Model
 {
     /// <summary>
-    /// Enemy level 2 class.
+    ///     Enemy level 2 class.
     /// </summary>
     /// <seealso cref="Galaga.Model.EnemyLevel1" />
     public class EnemyLevel2 : EnemyLevel1
@@ -18,7 +18,7 @@ namespace Galaga.Model
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="EnemyLevel2"/> class.
+        ///     Initializes a new instance of the <see cref="EnemyLevel2" /> class.
         /// </summary>
         public EnemyLevel2()
         {
@@ -27,6 +27,5 @@ namespace Galaga.Model
         }
 
         #endregion
-
     }
 }

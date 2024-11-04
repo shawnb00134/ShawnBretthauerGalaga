@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using Windows.UI.Xaml.Controls;
 
@@ -9,7 +10,7 @@ namespace Galaga.Model
     /// </summary>
     public class Physics
     {
-        #region Methods 
+        #region Methods
 
         /// <summary>
         ///     Checks the collisions.
@@ -26,7 +27,7 @@ namespace Galaga.Model
                 {
                     if (!(ship is EnemyShip && missile is EnemyMissile))
                     {
-                        System.Diagnostics.Debug.WriteLine("Not enemy ship and missile");
+                        Debug.WriteLine("Not enemy ship and missile");
                         if (this.isColliding(ship, missile))
                         {
                             if (!objectsToRemove.Contains(ship))
@@ -42,7 +43,7 @@ namespace Galaga.Model
                     }
                 }
             }
-            
+
             return objectsToRemove;
         }
 

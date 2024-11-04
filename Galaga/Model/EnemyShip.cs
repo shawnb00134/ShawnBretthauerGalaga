@@ -31,7 +31,7 @@ namespace Galaga.Model
         #region Methods
 
         /// <summary>
-        /// Fires the missile.
+        ///     Fires the missile.
         /// </summary>
         /// <returns></returns>
         public virtual EnemyMissile FireMissile()

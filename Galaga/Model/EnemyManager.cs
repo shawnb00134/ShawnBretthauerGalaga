@@ -1,18 +1,23 @@
 ﻿using System.Collections.Generic;
-using Windows.UI.Notifications;
 using Windows.UI.Xaml.Controls;
 
 namespace Galaga.Model
 {
     /// <summary>
-    /// EnenemyManager class.
+    ///     EnenemyManager class.
     /// </summary>
     public class EnemyManager
     {
+        #region Data members
+
         private readonly Canvas canvas;
 
+        #endregion
+
+        #region Constructors
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="EnemyManager"/> class.
+        ///     Initializes a new instance of the <see cref="EnemyManager" /> class.
         /// </summary>
         /// <param name="canvas">The canvas.</param>
         public EnemyManager(Canvas canvas)
@@ -20,25 +25,29 @@ namespace Galaga.Model
             this.canvas = canvas;
         }
 
+        #endregion
+
+        #region Methods
+
         /// <summary>
-        /// Creates and places the enemy ships.
+        ///     Creates and places the enemy ships.
         /// </summary>
         /// <returns></returns>
         public List<EnemyShip> CreateAndPlaceEnemyShip()
         {
-            List<EnemyShip> enemyShips = new List<EnemyShip>();
+            var enemyShips = new List<EnemyShip>();
 
             const double rowSpacing = 100;
-            double canvasWidth = this.canvas.Width;
-            double startY = this.canvas.Height / 2;
+            var canvasWidth = this.canvas.Width;
+            var startY = this.canvas.Height / 2;
             int[] enemiesPerRow = { 2, 3, 4 };
-            
-            for (int rowIndex = 0; rowIndex < enemiesPerRow.Length; rowIndex++)
-            {
-                int enemyCount = enemiesPerRow[rowIndex];
-                double spacing = canvasWidth / (enemyCount + 1);
 
-                for (int i = 0; i < enemyCount; i++)
+            for (var rowIndex = 0; rowIndex < enemiesPerRow.Length; rowIndex++)
+            {
+                var enemyCount = enemiesPerRow[rowIndex];
+                var spacing = canvasWidth / (enemyCount + 1);
+
+                for (var i = 0; i < enemyCount; i++)
                 {
                     EnemyShip enemyShip;
                     if (rowIndex == 0)
@@ -57,7 +66,7 @@ namespace Galaga.Model
                     this.canvas.Children.Add(enemyShip.Sprite);
                     enemyShips.Add(enemyShip);
 
-                    double xPosition = (i + 1) * spacing - enemyShip.Width / 2.0;
+                    var xPosition = (i + 1) * spacing - enemyShip.Width / 2.0;
                     enemyShip.X = xPosition;
                     enemyShip.Y = startY - rowIndex * rowSpacing;
                 }
@@ -67,13 +76,12 @@ namespace Galaga.Model
         }
 
         /// <summary>
-        /// Moves the enemy ships.
+        ///     Moves the enemy ships.
         /// </summary>
         /// <param name="enemyShips">The enemy ships.</param>
         /// <param name="tickCounter">The tick counter.</param>
         public void MoveEnemyShips(List<EnemyShip> enemyShips, int tickCounter)
         {
-            
             foreach (var ship in enemyShips)
             {
                 if (ship != null)
@@ -93,5 +101,7 @@ namespace Galaga.Model
                 }
             }
         }
+
+        #endregion
     }
 }

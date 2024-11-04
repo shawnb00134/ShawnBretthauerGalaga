@@ -1,9 +1,10 @@
-﻿using Galaga.View;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Galaga.View;
 
 namespace Galaga.Model
 {
@@ -154,7 +155,7 @@ namespace Galaga.Model
         /// </summary>
         public void FireMissile()
         {
-            System.Diagnostics.Debug.WriteLine(this.playerMissileCount + " " + PlayerMissileLimit);
+            Debug.WriteLine(this.playerMissileCount + " " + PlayerMissileLimit);
             if (this.playerMissileCount < PlayerMissileLimit)
             {
                 this.playerMissileCount++;
@@ -165,7 +166,8 @@ namespace Galaga.Model
                 this.canvas.Children.Add(missile.Sprite);
                 this.missiles.Add(missile);
             }
-            System.Diagnostics.Debug.WriteLine(this.playerMissileCount + " " + PlayerMissileLimit);
+
+            Debug.WriteLine(this.playerMissileCount + " " + PlayerMissileLimit);
         }
 
         private void moveMissiles()

@@ -1,7 +1,7 @@
 ﻿namespace Galaga.Model
 {
     /// <summary>
-    /// EnemyMissile class.
+    ///     EnemyMissile class.
     /// </summary>
     public class EnemyMissile : GameObject
     {
@@ -15,7 +15,7 @@
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="EnemyMissile"/> class.
+        ///     Initializes a new instance of the <see cref="EnemyMissile" /> class.
         /// </summary>
         public EnemyMissile()
         {

@@ -3,7 +3,7 @@
 namespace Galaga.Model
 {
     /// <summary>
-    /// Class for a Level 3 Enemy.
+    ///     Class for a Level 3 Enemy.
     /// </summary>
     /// <seealso cref="Galaga.Model.EnemyShip" />
     public class EnemyLevel3 : EnemyShip
@@ -18,7 +18,7 @@ namespace Galaga.Model
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="EnemyLevel3"/> class.
+        ///     Initializes a new instance of the <see cref="EnemyLevel3" /> class.
         /// </summary>
         public EnemyLevel3()
         {
@@ -26,8 +26,12 @@ namespace Galaga.Model
             SetSpeed(SpeedXDirection, SpeedYDirection);
         }
 
+        #endregion
+
+        #region Methods
+
         /// <summary>
-        /// Fires the missile.
+        ///     Fires the missile.
         /// </summary>
         public override EnemyMissile FireMissile()
         {
