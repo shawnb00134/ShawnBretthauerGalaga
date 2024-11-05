@@ -9,8 +9,10 @@
 
     <Canvas x:Name="canvas" Width="640" Height="480" Background="Black">
         <TextBlock x:Name="gameOverYouLWin" Canvas.Left="286" TextWrapping="Wrap" Text="Game Over&#x0a;You Win!"
-                   Canvas.Top="240" TextAlignment="Center" Visibility="Collapsed" />
+                   Canvas.Top="240" TextAlignment="Center" Visibility="Collapsed" Foreground="White" />
         <TextBlock x:Name="gameOverYouLose" Canvas.Left="286" TextWrapping="Wrap" Text="Game Over&#x0a;You Lose"
-                   Canvas.Top="240" TextAlignment="Center" Visibility="Collapsed" />
+                   Canvas.Top="240" TextAlignment="Center" Visibility="Collapsed" Foreground="White" />
+        <TextBlock x:Name="scoreBoard" Canvas.Left="10" Canvas.Top="10" TextWrapping="Wrap" Text="Score: "
+                   Foreground="LawnGreen" />
     </Canvas>
 </Page>

@@ -15,6 +15,18 @@ namespace Galaga.Model
 
         #endregion
 
+        #region Properties
+
+        /// <summary>
+        ///     Gets the score value.
+        /// </summary>
+        /// <value>
+        ///     The score value.
+        /// </value>
+        public override int ScoreValue { get; } = 3;
+
+        #endregion
+
         #region Constructors
 
         /// <summary>

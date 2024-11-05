@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using Windows.UI.Xaml.Controls;
 
@@ -27,7 +26,6 @@ namespace Galaga.Model
                 {
                     if (!(ship is EnemyShip && missile is EnemyMissile))
                     {
-                        Debug.WriteLine("Not enemy ship and missile");
                         if (this.isColliding(ship, missile))
                         {
                             if (!objectsToRemove.Contains(ship))

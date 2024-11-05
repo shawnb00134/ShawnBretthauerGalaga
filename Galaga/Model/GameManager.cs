@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -15,15 +14,12 @@ namespace Galaga.Model
     {
         #region Data members
 
-        private const double PlayerOffsetFromBottom = 30;
         private const int PlayerSpeedBoundary = 3;
         private const int TickTimer = 50;
         private const int TickCounterReset = 40;
+        private const double PlayerOffsetFromBottom = 30;
         private const int PlayerMissileLimit = 1;
 
-        private List<EnemyShip> enemyShips;
-        private readonly List<GameObject> listOfShips;
-        private readonly List<GameObject> missiles;
         private readonly Canvas canvas;
         private readonly double canvasHeight;
         private readonly double canvasWidth;
@@ -32,9 +28,13 @@ namespace Galaga.Model
         private readonly Random random;
         private readonly DispatcherTimer timer;
         private int tickCounter;
-        private int playerMissileCount;
 
         private Player player;
+        private int score;
+        private int playerMissileCount;
+        private List<EnemyShip> enemyShips;
+        private readonly List<GameObject> listOfShips;
+        private readonly List<GameObject> missiles;
         private readonly Physics physics;
         private readonly EnemyManager enemyManager;
 
@@ -63,6 +63,7 @@ namespace Galaga.Model
 
             this.tickCounter = 0;
             this.playerMissileCount = 0;
+            this.score = 0;
             this.random = new Random();
             this.physics = new Physics();
 
@@ -70,6 +71,7 @@ namespace Galaga.Model
             this.timer.Interval = new TimeSpan(0, 0, 0, 0, TickTimer);
             this.timer.Tick += this.timer_Tick;
             this.timer.Start();
+            this.updateScore(this.score);
         }
 
         #endregion
@@ -155,7 +157,6 @@ namespace Galaga.Model
         /// </summary>
         public void FireMissile()
         {
-            Debug.WriteLine(this.playerMissileCount + " " + PlayerMissileLimit);
             if (this.playerMissileCount < PlayerMissileLimit)
             {
                 this.playerMissileCount++;
@@ -166,8 +167,6 @@ namespace Galaga.Model
                 this.canvas.Children.Add(missile.Sprite);
                 this.missiles.Add(missile);
             }
-
-            Debug.WriteLine(this.playerMissileCount + " " + PlayerMissileLimit);
         }
 
         private void moveMissiles()
@@ -235,10 +234,11 @@ namespace Galaga.Model
                     this.listOfShips.Remove(obj);
                 }
 
-                if (obj is EnemyShip)
+                if (obj is EnemyShip enemyShip)
                 {
-                    this.enemyShips.Remove((EnemyShip)obj);
-                    this.listOfShips.Remove(obj);
+                    this.updateScore(enemyShip.ScoreValue);
+                    this.enemyShips.Remove(enemyShip);
+                    this.listOfShips.Remove(enemyShip);
                 }
 
                 if (obj is EnemyMissile || obj is PlayerMissile)
@@ -256,18 +256,24 @@ namespace Galaga.Model
             }
         }
 
+        private void updateScore(int scoreValue)
+        {
+            this.score += scoreValue;
+            this.gameCanvas.updateScoreBoard("Score: " + this.score);
+        }
+
         private void checkForEndGame()
         {
             if (!this.listOfShips.Contains(this.player))
             {
                 this.timer.Stop();
-                this.gameCanvas.displayYouLoseText();
+                this.gameCanvas.DisplayYouLoseText();
             }
 
             if (!this.enemyShips.Any())
             {
                 this.timer.Stop();
-                this.gameCanvas.displayYouWinText();
+                this.gameCanvas.DisplayYouWinText();
             }
         }
 

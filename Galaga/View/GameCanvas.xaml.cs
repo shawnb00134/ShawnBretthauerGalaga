@@ -63,7 +63,7 @@ namespace Galaga.View
         /// <summary>
         ///     Displays the "You Win" text.
         /// </summary>
-        public void displayYouWinText()
+        public void DisplayYouWinText()
         {
             this.gameOverYouLWin.Visibility = Visibility.Visible;
         }
@@ -71,9 +71,18 @@ namespace Galaga.View
         /// <summary>
         ///     Displays the "You Lose" text.
         /// </summary>
-        public void displayYouLoseText()
+        public void DisplayYouLoseText()
         {
             this.gameOverYouLose.Visibility = Visibility.Visible;
+        }
+
+        /// <summary>
+        ///     Updates the score board.
+        /// </summary>
+        /// <param name="scoreText">The score text.</param>
+        public void updateScoreBoard(string scoreText)
+        {
+            this.scoreBoard.Text = scoreText;
         }
 
         #endregion
