@@ -46,7 +46,7 @@ namespace Galaga.Model
             const double rowSpacing = 100;
             var canvasWidth = this.canvas.Width;
             var startY = this.canvas.Height / 2;
-            int[] enemiesPerRow = { 2, 3, 4 };
+            int[] enemiesPerRow = { 2, 3, 4, 5 };
 
             for (var rowIndex = 0; rowIndex < enemiesPerRow.Length; rowIndex++)
             {
@@ -66,9 +66,13 @@ namespace Galaga.Model
                             enemyShip = new NonFiringEnemy(new EnemyLevel2Sprite());
                             enemyShip.ScoreValue = 2;
                             break;
-                        default:
+                        case 2:
                             enemyShip = new FiringEnemy(new EnemyLevel3Sprite());
                             enemyShip.ScoreValue = 3;
+                            break;
+                        default:
+                            enemyShip = new FiringEnemy(new EnemyLevel3Sprite());
+                            enemyShip.ScoreValue = 4;
                             break;
                     }
 
@@ -109,6 +113,14 @@ namespace Galaga.Model
                     }
                 }
             }
+        }
+
+        /// <summary>
+        ///     Swaps the sprites every tick.
+        /// </summary>
+        public void swapSpritesAnimation()
+        {
+
         }
 
         #endregion

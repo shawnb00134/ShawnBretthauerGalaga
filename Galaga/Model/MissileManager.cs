@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 
 namespace Galaga.Model
@@ -13,10 +11,12 @@ namespace Galaga.Model
     public class MissileManager
     {
         private readonly Random random;
+        private const int MissileDelayLimit = 10;
         private const int EnemyFireCounter = 30;
-        private const int PlayerMissileLimit = 1;
-
+        private const int PlayerMissileLimit = 3;
         private int PlayerMissileCount { get; set; }
+        private int DelayTicker;
+        
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="MissileManager"/> class.
@@ -25,6 +25,7 @@ namespace Galaga.Model
         {
             this.random = new Random();
             this.PlayerMissileCount = 0;
+            this.DelayTicker = 10;
         }
 
         /// <summary>
@@ -35,9 +36,10 @@ namespace Galaga.Model
         /// <returns></returns>
         public GameObject FireMissile(Player player, Canvas canvas)
         {
-            if (this.PlayerMissileCount < PlayerMissileLimit)
+            if (this.PlayerMissileCount < PlayerMissileLimit && this.DelayTicker > MissileDelayLimit)
             {
                 this.PlayerMissileCount++;
+                this.DelayTicker = 0;
 
                 var missile = new PlayerMissile();
                 missile.X = player.X + player.Width / 2.0 - missile.Width / 2.0;
@@ -82,20 +84,16 @@ namespace Galaga.Model
 
             if (this.random.Next(EnemyFireCounter) == 0)
             {
-                foreach (var enemyShip in enemyShips)
-                {
-                    var eligibleShips = enemyShips.Where(ship => ship is FiringEnemy);
-                    var count = eligibleShips.Count();
+                var eligibleShips = enemyShips.Where(ship => ship is FiringEnemy);
+                var count = eligibleShips.Count();
 
-                    if (count > 0)
-                    {
-                        var randomIndex = this.random.Next(count);
-                        var randomShip = eligibleShips.ElementAt(randomIndex);
-                        var missile = randomShip.FireMissile();
-                        canvas.Children.Add(missile.Sprite);
-                        missileObject = missile;
-                        break;
-                    }
+                if (count > 0)
+                {
+                    var randomIndex = this.random.Next(count);
+                    var randomShip = eligibleShips.ElementAt(randomIndex);
+                    var missile = randomShip.FireMissile();
+                    canvas.Children.Add(missile.Sprite);
+                    missileObject = missile;
                 }
             }
 
@@ -108,6 +106,14 @@ namespace Galaga.Model
         public void DecrementPlayerMissileCount()
         {
             this.PlayerMissileCount--;
+        }
+
+        /// <summary>
+        ///     Updates the delay tick.
+        /// </summary>
+        public void UpdateDelayTick()
+        {
+            this.DelayTicker++;
         }
     }
 }

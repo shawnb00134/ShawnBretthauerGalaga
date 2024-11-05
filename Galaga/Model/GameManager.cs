@@ -26,7 +26,6 @@ namespace Galaga.Model
         private readonly GameCanvas gameCanvas;
         private readonly MissileManager missileManager;
 
-        private readonly Random random;
         private readonly DispatcherTimer timer;
         private int tickCounter;
 
@@ -66,7 +65,6 @@ namespace Galaga.Model
 
             this.tickCounter = 0;
             this.score = 0;
-            this.random = new Random();
             this.physics = new Physics();
 
             this.timer = new DispatcherTimer();
@@ -93,6 +91,7 @@ namespace Galaga.Model
                 this.tickCounter = 0;
             }
 
+            this.missileManager.UpdateDelayTick();
             this.checkForMissileOutOfBounds();
             this.checkForCollisions();
         }
