@@ -6,10 +6,10 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    d:DesignHeight="30"
-    d:DesignWidth="15"
-    Height="30"
-    Width="16">
+    d:DesignHeight="25"
+    d:DesignWidth="10"
+    Height="25"
+    Width="10">
 
     <UserControl.Resources>
         <SolidColorBrush x:Key="MainColor" Color="LightGray" />
@@ -17,8 +17,8 @@
     </UserControl.Resources>
 
     <Canvas>
-        <Rectangle Height="25" Width="10" Canvas.Top="5" Canvas.Left="2.5" Fill="{StaticResource MainColor}" />
-        <Ellipse Height="6" Width="10" Canvas.Top="2" Canvas.Left="2.5" Fill="{StaticResource AccentColor}"/>
-        <Rectangle Height="3" Width="10" Canvas.Top="5" Canvas.Left="2.5" Fill="{StaticResource AccentColor}" />
+        <Rectangle Height="22" Width="10" Canvas.Top="3" Canvas.Left="0" Fill="{StaticResource MainColor}" />
+        <Ellipse Height="6" Width="10" Canvas.Top="0" Canvas.Left="0" Fill="{StaticResource AccentColor}" />
+        <Rectangle Height="3" Width="10" Canvas.Top="3" Canvas.Left="0" Fill="{StaticResource AccentColor}" />
     </Canvas>
 </local:BaseSprite>

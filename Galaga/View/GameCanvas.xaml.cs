@@ -85,6 +85,15 @@ namespace Galaga.View
             this.scoreBoard.Text = scoreText;
         }
 
+        /// <summary>
+        ///     Updates the player lives board.
+        /// </summary>
+        /// <param name="playerLivesText">The player lives text.</param>
+        public void updatePlayerLivesBoard(string playerLivesText)
+        {
+            this.playerLivesBoard.Text = playerLivesText;
+        }
+
         #endregion
     }
 }

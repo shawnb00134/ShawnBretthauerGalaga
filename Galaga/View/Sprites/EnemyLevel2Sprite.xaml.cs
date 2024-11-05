@@ -10,12 +10,16 @@ namespace Galaga.View.Sprites
     /// <seealso cref="Windows.UI.Xaml.Markup.IComponentConnector2" />
     public sealed partial class EnemyLevel2Sprite
     {
+        #region Constructors
+
         /// <summary>
-        ///     Initializes a new instance of the <see cref="EnemyLevel2Sprite"/> class.
+        ///     Initializes a new instance of the <see cref="EnemyLevel2Sprite" /> class.
         /// </summary>
         public EnemyLevel2Sprite()
         {
             this.InitializeComponent();
         }
+
+        #endregion
     }
 }

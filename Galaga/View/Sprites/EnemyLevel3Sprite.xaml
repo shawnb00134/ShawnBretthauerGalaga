@@ -20,7 +20,7 @@
 
     <Canvas>
         <Polygon Points="25,30 50,40 25,60 0,40" Fill="{StaticResource MainAccentColor}" />
-        <Polygon Points="25,0 40,40 25,55 10,40" Fill="{StaticResource ShipBaseColor}"/>
+        <Polygon Points="25,0 40,40 25,55 10,40" Fill="{StaticResource ShipBaseColor}" />
         <Polygon Points="25,10 30,25 25,30 20,25" Fill="{StaticResource SecondaryAccentColor}" />
         <Polygon Points="12,35 25,40 38,35 25,50 " Fill="{StaticResource TertiaryAccentColor}" />
     </Canvas>

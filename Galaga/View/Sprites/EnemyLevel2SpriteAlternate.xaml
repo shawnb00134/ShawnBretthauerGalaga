@@ -1,4 +1,4 @@
-﻿<local:EnemyLevel1SpriteAlternate
+﻿<local:BaseSprite
     x:Class="Galaga.View.Sprites.EnemyLevel2SpriteAlternate"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -24,4 +24,4 @@
         <Polygon Points="2,30 4,25 6,30" Fill="{StaticResource EngineAccentColor}" />
         <Polygon Points="44,30 46,25 48,30" Fill="{StaticResource EngineAccentColor}" />
     </Canvas>
-</local:EnemyLevel1SpriteAlternate>
+</local:BaseSprite>

@@ -18,6 +18,8 @@ namespace Galaga.Model
 
         private readonly Canvas canvas;
 
+        private int tick;
+
         #endregion
 
         #region Constructors
@@ -29,6 +31,7 @@ namespace Galaga.Model
         public EnemyManager(Canvas canvas)
         {
             this.canvas = canvas;
+            this.tick = 0;
         }
 
         #endregion
@@ -59,19 +62,19 @@ namespace Galaga.Model
                     switch (rowIndex)
                     {
                         case 0:
-                            enemyShip = new NonFiringEnemy(new EnemyLevel1Sprite());
+                            enemyShip = new NonFiringEnemy(new EnemyLevel1Sprite(), new EnemyLevel1SpriteAlternate());
                             enemyShip.ScoreValue = 1;
                             break;
                         case 1:
-                            enemyShip = new NonFiringEnemy(new EnemyLevel2Sprite());
+                            enemyShip = new NonFiringEnemy(new EnemyLevel2Sprite(), new EnemyLevel2SpriteAlternate());
                             enemyShip.ScoreValue = 2;
                             break;
                         case 2:
-                            enemyShip = new FiringEnemy(new EnemyLevel3Sprite());
+                            enemyShip = new FiringEnemy(new EnemyLevel3Sprite(), new EnemyLevel3Sprite());
                             enemyShip.ScoreValue = 3;
                             break;
                         default:
-                            enemyShip = new FiringEnemy(new EnemyLevel3Sprite());
+                            enemyShip = new FiringEnemy(new EnemyLevel3Sprite(), new EnemyLevel3Sprite());
                             enemyShip.ScoreValue = 4;
                             break;
                     }
@@ -118,9 +121,13 @@ namespace Galaga.Model
         /// <summary>
         ///     Swaps the sprites every tick.
         /// </summary>
-        public void swapSpritesAnimation()
+        public void swapSpritesAnimation(List<EnemyShip> enemyShips)
         {
-
+            foreach (var enemyShip in enemyShips)
+            {
+                enemyShip.SwapSprites(this.tick);
+                this.tick++;
+            }
         }
 
         #endregion

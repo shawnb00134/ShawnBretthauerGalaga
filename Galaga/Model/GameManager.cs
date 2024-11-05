@@ -18,7 +18,6 @@ namespace Galaga.Model
         private const int TickTimer = 50;
         private const int TickCounterReset = 40;
         private const double PlayerOffsetFromBottom = 30;
-        
 
         private readonly Canvas canvas;
         private readonly double canvasHeight;
@@ -31,7 +30,7 @@ namespace Galaga.Model
 
         private Player player;
         private int score;
-        
+
         private List<EnemyShip> enemyShips;
         private readonly List<GameObject> listOfShips;
         private readonly List<GameObject> missiles;
@@ -92,6 +91,7 @@ namespace Galaga.Model
             }
 
             this.missileManager.UpdateDelayTick();
+            this.enemyManager.swapSpritesAnimation(this.enemyShips);
             this.checkForMissileOutOfBounds();
             this.checkForCollisions();
         }
@@ -224,6 +224,11 @@ namespace Galaga.Model
         {
             this.score += scoreValue;
             this.gameCanvas.updateScoreBoard("Score: " + this.score);
+        }
+
+        private void updatePlayerLives()
+        {
+            this.gameCanvas.updatePlayerLivesBoard("Lives: " + this.player.PlayerLives);
         }
 
         private void checkForEndGame()

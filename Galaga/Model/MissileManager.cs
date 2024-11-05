@@ -10,23 +10,37 @@ namespace Galaga.Model
     /// </summary>
     public class MissileManager
     {
-        private readonly Random random;
+        #region Data members
+
         private const int MissileDelayLimit = 10;
         private const int EnemyFireCounter = 30;
         private const int PlayerMissileLimit = 3;
+        private readonly Random random;
+        private int delayTicker;
+
+        #endregion
+
+        #region Properties
+
         private int PlayerMissileCount { get; set; }
-        private int DelayTicker;
-        
+
+        #endregion
+
+        #region Constructors
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="MissileManager"/> class.
+        ///     Initializes a new instance of the <see cref="MissileManager" /> class.
         /// </summary>
         public MissileManager()
         {
             this.random = new Random();
             this.PlayerMissileCount = 0;
-            this.DelayTicker = 10;
+            this.delayTicker = 10;
         }
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         ///     Fires the missile.
@@ -36,10 +50,10 @@ namespace Galaga.Model
         /// <returns></returns>
         public GameObject FireMissile(Player player, Canvas canvas)
         {
-            if (this.PlayerMissileCount < PlayerMissileLimit && this.DelayTicker > MissileDelayLimit)
+            if (this.PlayerMissileCount < PlayerMissileLimit && this.delayTicker > MissileDelayLimit)
             {
                 this.PlayerMissileCount++;
-                this.DelayTicker = 0;
+                this.delayTicker = 0;
 
                 var missile = new PlayerMissile();
                 missile.X = player.X + player.Width / 2.0 - missile.Width / 2.0;
@@ -64,7 +78,7 @@ namespace Galaga.Model
                 {
                     missile.MoveUp();
                 }
-                
+
                 if (missile is EnemyMissile)
                 {
                     missile.MoveDown();
@@ -113,7 +127,9 @@ namespace Galaga.Model
         /// </summary>
         public void UpdateDelayTick()
         {
-            this.DelayTicker++;
+            this.delayTicker++;
         }
+
+        #endregion
     }
 }

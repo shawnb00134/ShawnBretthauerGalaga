@@ -14,6 +14,19 @@ namespace Galaga.Model
 
         #endregion
 
+        #region Properties
+
+
+        /// <summary>
+        ///     Gets or sets the player lives.
+        /// </summary>
+        /// <value>
+        /// The player lives.
+        /// </value>
+        public int PlayerLives { get; private set; } = 3;
+
+        #endregion
+
         #region Constructors
 
         /// <summary>
@@ -23,6 +36,18 @@ namespace Galaga.Model
         {
             Sprite = new PlayerSprite();
             SetSpeed(SpeedXDirection, SpeedYDirection);
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        ///     Removes a player life.
+        /// </summary>
+        public void removePlayerLife()
+        {
+            this.PlayerLives--;
         }
 
         #endregion

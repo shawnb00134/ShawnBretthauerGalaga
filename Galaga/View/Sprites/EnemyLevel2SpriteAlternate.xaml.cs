@@ -8,12 +8,16 @@
     /// <seealso cref="Windows.UI.Xaml.Markup.IComponentConnector2" />
     public sealed partial class EnemyLevel2SpriteAlternate
     {
+        #region Constructors
+
         /// <summary>
-        ///     Initializes a new instance of the <see cref="EnemyLevel2SpriteAlternate"/> class.
+        ///     Initializes a new instance of the <see cref="EnemyLevel2SpriteAlternate" /> class.
         /// </summary>
         public EnemyLevel2SpriteAlternate()
         {
             this.InitializeComponent();
         }
+
+        #endregion
     }
 }

@@ -13,6 +13,16 @@ namespace Galaga.Model
         private const int SpeedXDirection = 3;
         private const int SpeedYDirection = 0;
 
+        /// <summary>
+        ///     The primary sprite/
+        /// </summary>
+        public new BaseSprite PrimarySprite;
+
+        /// <summary>
+        ///     The secondary sprite
+        /// </summary>
+        public new BaseSprite SecondarySprite;
+
         #endregion
 
         #region Properties
@@ -32,10 +42,12 @@ namespace Galaga.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="FiringEnemy" /> class.
         /// </summary>
-        public FiringEnemy(BaseSprite enemySprite)
+        public FiringEnemy(BaseSprite mainSprite, BaseSprite alternateSprite) : base(mainSprite, alternateSprite)
         {
-            Sprite = enemySprite;
+            Sprite = mainSprite;
             SetSpeed(SpeedXDirection, SpeedYDirection);
+            this.PrimarySprite = mainSprite;
+            this.SecondarySprite = alternateSprite;
         }
 
         #endregion
@@ -54,5 +66,20 @@ namespace Galaga.Model
         }
 
         #endregion
+
+        ///// <summary>
+        /////     Swaps the sprites.
+        ///// </summary>
+        //public new void SwapSprites()
+        //{
+        //    if (Sprite == this.PrimarySprite)
+        //    {
+        //        Sprite = this.SecondarySprite;
+        //    }
+        //    else
+        //    {
+        //        Sprite = this.PrimarySprite;
+        //    }
+        //}
     }
 }
