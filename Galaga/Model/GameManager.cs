@@ -33,6 +33,7 @@ namespace Galaga.Model
         private int score;
         private int playerMissileCount;
         private List<EnemyShip> enemyShips;
+        private const int EnemyFireCounter = 30;
         private readonly List<GameObject> listOfShips;
         private readonly List<GameObject> missiles;
         private readonly Physics physics;
@@ -187,14 +188,14 @@ namespace Galaga.Model
         private void enemyFireMissiles()
         {
             //TODO: Fix the ToList issue
-            if (this.random.Next(30) == 0)
+            if (this.random.Next(EnemyFireCounter) == 0)
             {
                 foreach (var enemyShip in this.enemyShips)
                 {
-                    var eleigibleShips = this.enemyShips.Where(ship => ship is EnemyLevel3).ToList();
-                    if (eleigibleShips.Any())
+                    var eligibleShips = this.enemyShips.Where(ship => ship is FiringEnemy).ToList();
+                    if (eligibleShips.Any())
                     {
-                        var randomShip = eleigibleShips.ElementAt(this.random.Next(eleigibleShips.Count));
+                        var randomShip = eligibleShips.ElementAt(this.random.Next(eligibleShips.Count));
                         var missile = randomShip.FireMissile();
                         this.canvas.Children.Add(missile.Sprite);
                         this.missiles.Add(missile);

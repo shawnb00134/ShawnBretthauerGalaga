@@ -1,14 +1,20 @@
 ﻿using System.Collections.Generic;
 using Windows.UI.Xaml.Controls;
+using Galaga.View.Sprites;
 
 namespace Galaga.Model
 {
     /// <summary>
-    ///     EnenemyManager class.
+    ///     EnemyManager class.
     /// </summary>
     public class EnemyManager
     {
         #region Data members
+
+        //TODO: Change names of these constants to something more descriptive
+        private const int EnemyMovementStepOne = 10;
+        private const int EnemyMovementStepTwo = 30;
+        private const int EnemyMovementStepThree = 40;
 
         private readonly Canvas canvas;
 
@@ -47,20 +53,23 @@ namespace Galaga.Model
                 var enemyCount = enemiesPerRow[rowIndex];
                 var spacing = canvasWidth / (enemyCount + 1);
 
+                EnemyShip enemyShip;
                 for (var i = 0; i < enemyCount; i++)
                 {
-                    EnemyShip enemyShip;
                     if (rowIndex == 0)
                     {
-                        enemyShip = new EnemyLevel1();
+                        enemyShip = new NonFiringEnemy(new EnemyLevel1Sprite());
+                        enemyShip.ScoreValue = 1;
                     }
                     else if (rowIndex == 1)
                     {
-                        enemyShip = new EnemyLevel2();
+                        enemyShip = new NonFiringEnemy(new EnemyLevel2Sprite());
+                        enemyShip.ScoreValue = 2;
                     }
                     else
                     {
-                        enemyShip = new EnemyLevel3();
+                        enemyShip = new FiringEnemy(new EnemyLevel3Sprite());
+                        enemyShip.ScoreValue = 3;
                     }
 
                     this.canvas.Children.Add(enemyShip.Sprite);
@@ -86,15 +95,15 @@ namespace Galaga.Model
             {
                 if (ship != null)
                 {
-                    if (tickCounter < 10)
+                    if (tickCounter < EnemyMovementStepOne)
                     {
                         ship.MoveLeft();
                     }
-                    else if (tickCounter < 30)
+                    else if (tickCounter < EnemyMovementStepTwo)
                     {
                         ship.MoveRight();
                     }
-                    else if (tickCounter < 40)
+                    else if (tickCounter < EnemyMovementStepThree)
                     {
                         ship.MoveLeft();
                     }

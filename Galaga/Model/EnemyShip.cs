@@ -23,7 +23,7 @@ namespace Galaga.Model
         /// <value>
         ///     The score value.
         /// </value>
-        public abstract int ScoreValue { get; }
+        public virtual int ScoreValue { get; set; }
 
         #endregion
 

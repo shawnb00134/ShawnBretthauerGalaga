@@ -28,15 +28,8 @@ namespace Galaga.Model
                     {
                         if (this.isColliding(ship, missile))
                         {
-                            if (!objectsToRemove.Contains(ship))
-                            {
-                                objectsToRemove.Add(ship);
-                            }
-
-                            if (!objectsToRemove.Contains(missile))
-                            {
-                                objectsToRemove.Add(missile);
-                            }
+                            objectsToRemove.Add(ship);
+                            objectsToRemove.Add(missile);
                         }
                     }
                 }

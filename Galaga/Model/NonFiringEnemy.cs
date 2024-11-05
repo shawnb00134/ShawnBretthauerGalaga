@@ -6,7 +6,7 @@ namespace Galaga.Model
     ///     Enemy level 1 class.
     /// </summary>
     /// <seealso cref="Galaga.Model.EnemyShip" />
-    public class EnemyLevel1 : EnemyShip
+    public class NonFiringEnemy : EnemyShip
     {
         #region Data members
 
@@ -23,18 +23,18 @@ namespace Galaga.Model
         /// <value>
         ///     The score value.
         /// </value>
-        public override int ScoreValue { get; } = 1;
+        public override int ScoreValue { get; set; }
 
         #endregion
 
         #region Constructors
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="EnemyLevel1" /> class.
+        ///     Initializes a new instance of the <see cref="NonFiringEnemy" /> class.
         /// </summary>
-        public EnemyLevel1()
+        public NonFiringEnemy(BaseSprite enemySprite)
         {
-            Sprite = new EnemyLevel1Sprite();
+            Sprite = enemySprite;
             SetSpeed(SpeedXDirection, SpeedYDirection);
         }
 
