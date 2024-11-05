@@ -24,7 +24,7 @@ namespace Galaga.Model
             {
                 foreach (var missile in missiles)
                 {
-                    if (!(ship is EnemyShip && missile is EnemyMissile))
+                    if (!(ship is EnemyShip && missile is EnemyMissile) && missile != null)
                     {
                         if (this.isColliding(ship, missile))
                         {

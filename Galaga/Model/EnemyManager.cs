@@ -56,20 +56,20 @@ namespace Galaga.Model
                 EnemyShip enemyShip;
                 for (var i = 0; i < enemyCount; i++)
                 {
-                    if (rowIndex == 0)
+                    switch (rowIndex)
                     {
-                        enemyShip = new NonFiringEnemy(new EnemyLevel1Sprite());
-                        enemyShip.ScoreValue = 1;
-                    }
-                    else if (rowIndex == 1)
-                    {
-                        enemyShip = new NonFiringEnemy(new EnemyLevel2Sprite());
-                        enemyShip.ScoreValue = 2;
-                    }
-                    else
-                    {
-                        enemyShip = new FiringEnemy(new EnemyLevel3Sprite());
-                        enemyShip.ScoreValue = 3;
+                        case 0:
+                            enemyShip = new NonFiringEnemy(new EnemyLevel1Sprite());
+                            enemyShip.ScoreValue = 1;
+                            break;
+                        case 1:
+                            enemyShip = new NonFiringEnemy(new EnemyLevel2Sprite());
+                            enemyShip.ScoreValue = 2;
+                            break;
+                        default:
+                            enemyShip = new FiringEnemy(new EnemyLevel3Sprite());
+                            enemyShip.ScoreValue = 3;
+                            break;
                     }
 
                     this.canvas.Children.Add(enemyShip.Sprite);

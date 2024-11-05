@@ -121,6 +121,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Model\MissileManager.cs" />
     <Compile Include="Model\NonFiringEnemy.cs" />
     <Compile Include="Model\FiringEnemy.cs" />
     <Compile Include="Model\EnemyManager.cs" />
