@@ -52,19 +52,27 @@ namespace Galaga.Model
 
         #endregion
 
-        ///// <summary>
-        /////     Swaps the sprites.
-        ///// </summary>
-        //public new void SwapSprites()
-        //{
-        //    if (Sprite == this.PrimarySprite)
-        //    {
-        //        Sprite = this.SecondarySprite;
-        //    }
-        //    else
-        //    {
-        //        Sprite = this.PrimarySprite;
-        //    }
-        //}
+        /// <summary>
+        ///     Swaps the sprites.
+        /// </summary>
+        public new void SwapSprites(int tick)
+        {
+            //if (tick % 2 == 0)
+            //{
+            //    Sprite = this.PrimarySprite;
+            //}
+            //else
+            //{
+            //    Sprite = this.SecondarySprite;
+            //}
+            if (Sprite == this.PrimarySprite)
+            {
+                Sprite = this.SecondarySprite;
+            }
+            else
+            {
+                Sprite = this.PrimarySprite;
+            }
+        }
     }
 }

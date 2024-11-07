@@ -107,6 +107,7 @@ namespace Galaga.Model
             this.player = new Player();
             this.canvas.Children.Add(this.player.Sprite);
             this.listOfShips.Add(this.player);
+            this.updatePlayerLives();
 
             this.placePlayerNearBottomOfBackgroundCentered();
         }
@@ -199,7 +200,8 @@ namespace Galaga.Model
                 switch (obj)
                 {
                     case Player _:
-                        this.listOfShips.Remove(obj);
+                        //this.listOfShips.Remove(obj);
+                        this.checkPlayerLives(obj);
                         break;
                     case EnemyShip enemyShip:
                         this.updateScore(enemyShip.ScoreValue);
@@ -216,6 +218,25 @@ namespace Galaga.Model
                 }
 
                 this.canvas.Children.Remove(obj.Sprite);
+                this.checkForEndGame();
+            }
+        }
+
+        private void checkPlayerLives(GameObject playerObject)
+        {
+            this.player.removePlayerLife();
+            this.updatePlayerLives();
+            if (this.player.PlayerLives > 0)
+            {
+                //this.listOfShips.Remove(playerObject);
+                //this.canvas.Children.Remove(playerObject.Sprite);
+                this.placePlayerNearBottomOfBackgroundCentered();
+                //this.createAndPlacePlayer();
+            }
+            else
+            {
+                this.listOfShips.Remove(playerObject);
+                this.canvas.Children.Remove(playerObject.Sprite);
                 this.checkForEndGame();
             }
         }
