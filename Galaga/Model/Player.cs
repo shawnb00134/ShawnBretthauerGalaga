@@ -16,12 +16,11 @@ namespace Galaga.Model
 
         #region Properties
 
-
         /// <summary>
         ///     Gets or sets the player lives.
         /// </summary>
         /// <value>
-        /// The player lives.
+        ///     The player lives.
         /// </value>
         public int PlayerLives { get; private set; } = 3;
 

@@ -14,6 +14,9 @@ namespace Galaga.Model
     {
         #region Data members
 
+        private const int TickTimer = 50;
+        private const int TickCounterReset = 40;
+
         private readonly Canvas canvas;
         private readonly GameCanvas gameCanvas;
         private readonly PlayerManager playerManager;
@@ -21,8 +24,6 @@ namespace Galaga.Model
 
         private readonly DispatcherTimer timer;
         private int tickCounter;
-        private const int TickTimer = 50;
-        private const int TickCounterReset = 40;
 
         private int score;
 
@@ -52,7 +53,7 @@ namespace Galaga.Model
             this.enemyManager = new EnemyManager(this.canvas);
             this.physics = new Physics();
             this.canvas = canvas;
-            
+
             this.tickCounter = 0;
             this.score = 0;
 
@@ -75,7 +76,7 @@ namespace Galaga.Model
             {
                 this.playerManager.MovePlayerLeft();
             }
-            
+
             if (this.gameCanvas.IsMovingRight())
             {
                 this.playerManager.MovePlayerRight();
@@ -198,7 +199,7 @@ namespace Galaga.Model
                         this.canvas.Children.Remove(obj.Sprite);
                         break;
                 }
-                
+
                 this.checkForEndGame();
             }
         }

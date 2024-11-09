@@ -83,17 +83,23 @@ namespace Galaga.View
         ///     Determines whether [is moving left].
         /// </summary>
         /// <returns>
-        ///   <c>true</c> if [is moving left]; otherwise, <c>false</c>.
+        ///     <c>true</c> if [is moving left]; otherwise, <c>false</c>.
         /// </returns>
-        public bool IsMovingLeft() => this.isMovingLeft;
+        public bool IsMovingLeft()
+        {
+            return this.isMovingLeft;
+        }
 
         /// <summary>
         ///     Determines whether [is moving right].
         /// </summary>
         /// <returns>
-        ///   <c>true</c> if [is moving right]; otherwise, <c>false</c>.
+        ///     <c>true</c> if [is moving right]; otherwise, <c>false</c>.
         /// </returns>
-        public bool IsMovingRight() => this.isMovingRight;
+        public bool IsMovingRight()
+        {
+            return this.isMovingRight;
+        }
 
         /// <summary>
         ///     Displays the "You Win" text.

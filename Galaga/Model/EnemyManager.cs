@@ -59,19 +59,23 @@ namespace Galaga.Model
                     switch (rowIndex)
                     {
                         case 0:
-                            enemyShip = new NonFiringEnemy(new EnemyLevel1Sprite(), new EnemyLevel1SpriteAlternate(), this.canvas);
+                            enemyShip = new NonFiringEnemy(new EnemyLevel1Sprite(), new EnemyLevel1SpriteAlternate(),
+                                this.canvas);
                             enemyShip.ScoreValue = 1;
                             break;
                         case 1:
-                            enemyShip = new NonFiringEnemy(new EnemyLevel2Sprite(), new EnemyLevel2SpriteAlternate(), this.canvas);
+                            enemyShip = new NonFiringEnemy(new EnemyLevel2Sprite(), new EnemyLevel2SpriteAlternate(),
+                                this.canvas);
                             enemyShip.ScoreValue = 2;
                             break;
                         case 2:
-                            enemyShip = new FiringEnemy(new EnemyLevel3Sprite(), new EnemyLevel3SpriteAlternate(), this.canvas);
+                            enemyShip = new FiringEnemy(new EnemyLevel3Sprite(), new EnemyLevel3SpriteAlternate(),
+                                this.canvas);
                             enemyShip.ScoreValue = 3;
                             break;
                         default:
-                            enemyShip = new FiringEnemy(new EnemyLevel3Sprite(), new EnemyLevel3SpriteAlternate(), this.canvas);
+                            enemyShip = new FiringEnemy(new EnemyLevel3Sprite(), new EnemyLevel3SpriteAlternate(),
+                                this.canvas);
                             enemyShip.ScoreValue = 4;
                             break;
                     }

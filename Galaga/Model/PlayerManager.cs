@@ -1,5 +1,5 @@
-﻿using Windows.UI.Xaml.Controls;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Windows.UI.Xaml.Controls;
 
 namespace Galaga.Model
 {
@@ -16,21 +16,19 @@ namespace Galaga.Model
         private readonly double canvasWidth;
 
         private readonly Canvas canvas;
-        private readonly MissileManager missileManager;
-        private Player player;
+        private readonly Player player;
 
         #endregion
 
         #region Constructors
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="PlayerManager"/> class.
+        ///     Initializes a new instance of the <see cref="PlayerManager" /> class.
         /// </summary>
         /// <param name="canvas">The canvas.</param>
         public PlayerManager(Canvas canvas)
         {
             this.canvas = canvas;
-            this.missileManager = new MissileManager();
             this.canvasHeight = canvas.Height;
             this.canvasWidth = canvas.Width;
             this.player = new Player();
@@ -106,11 +104,9 @@ namespace Galaga.Model
             {
                 return this.CreateAndPlacePlayer(listOfShips);
             }
-            else
-            {
-                //this.checkForEndGame();
-                return null;
-            }
+
+            //this.checkForEndGame();
+            return null;
         }
 
         /// <summary>
@@ -130,7 +126,6 @@ namespace Galaga.Model
         //{
         //    return this.missileManager.FireMissile(this.player, this.canvas);
         //}
-
         public GameObject GetPlayer()
         {
             return this.player;

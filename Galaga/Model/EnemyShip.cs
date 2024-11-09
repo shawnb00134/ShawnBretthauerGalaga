@@ -1,5 +1,6 @@
-﻿using Galaga.View.Sprites;
+﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Galaga.View.Sprites;
 
 namespace Galaga.Model
 {
@@ -14,10 +15,6 @@ namespace Galaga.Model
         private const int SpeedXDirection = 3;
         private const int SpeedYDirection = 0;
 
-        private readonly Canvas canvas;
-
-        private BaseSprite[] sprites;
-
         /// <summary>
         ///     The primary sprite/
         /// </summary>
@@ -28,6 +25,10 @@ namespace Galaga.Model
         /// </summary>
         //public EnemyLevel1SpriteAlternate SecondarySprite;
         public BaseSprite SecondarySprite;
+
+        private readonly Canvas canvas;
+
+        private readonly BaseSprite[] sprites;
 
         #endregion
 
@@ -53,7 +54,7 @@ namespace Galaga.Model
             Sprite = mainSprite;
             this.canvas = canvas;
             SetSpeed(SpeedXDirection, SpeedYDirection);
-            this.sprites = new [] { mainSprite, alternateSprite };
+            this.sprites = new[] { mainSprite, alternateSprite };
             this.PrimarySprite = mainSprite;
             this.SecondarySprite = alternateSprite;
         }
@@ -75,15 +76,15 @@ namespace Galaga.Model
         }
 
         /// <summary>
-        /// Adds the enemy sprites to the canvas and sets it initial visibility.
+        ///     Adds the enemy sprites to the canvas and sets it initial visibility.
         /// </summary>
         public virtual void addEnemyToCanvas()
         {
             this.canvas.Children.Add(this.sprites[0]);
-            this.sprites[0].Visibility = Windows.UI.Xaml.Visibility.Visible;
+            this.sprites[0].Visibility = Visibility.Visible;
 
             this.canvas.Children.Add(this.sprites[1]);
-            this.sprites[1].Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            this.sprites[1].Visibility = Visibility.Collapsed;
         }
 
         /// <summary>

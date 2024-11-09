@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Windows.UI.Xaml.Controls;
+//using System.Linq;
 
 namespace Galaga.Model
 {
@@ -98,14 +98,25 @@ namespace Galaga.Model
 
             if (this.random.Next(EnemyFireCounter) == 0)
             {
-                var eligibleShips = enemyShips.Where(ship => ship is FiringEnemy);
-                var count = eligibleShips.Count();
+                FiringEnemy selectedShip = null;
+                var eligibleCount = 0;
 
-                if (count > 0)
+                foreach (var ship in enemyShips)
                 {
-                    var randomIndex = this.random.Next(count);
-                    var randomShip = eligibleShips.ElementAt(randomIndex);
-                    var missile = randomShip.FireMissile();
+                    if (ship is FiringEnemy firingEnemy)
+                    {
+                        eligibleCount++;
+
+                        if (this.random.Next(eligibleCount) == 0)
+                        {
+                            selectedShip = firingEnemy;
+                        }
+                    }
+                }
+
+                if (selectedShip != null)
+                {
+                    var missile = selectedShip.FireMissile();
                     canvas.Children.Add(missile.Sprite);
                     missileObject = missile;
                 }
