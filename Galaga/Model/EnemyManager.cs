@@ -18,8 +18,6 @@ namespace Galaga.Model
 
         private readonly Canvas canvas;
 
-        private int tick;
-
         #endregion
 
         #region Constructors
@@ -31,7 +29,6 @@ namespace Galaga.Model
         public EnemyManager(Canvas canvas)
         {
             this.canvas = canvas;
-            this.tick = 0;
         }
 
         #endregion
@@ -62,24 +59,24 @@ namespace Galaga.Model
                     switch (rowIndex)
                     {
                         case 0:
-                            enemyShip = new NonFiringEnemy(new EnemyLevel1Sprite(), new EnemyLevel1SpriteAlternate());
+                            enemyShip = new NonFiringEnemy(new EnemyLevel1Sprite(), new EnemyLevel1SpriteAlternate(), this.canvas);
                             enemyShip.ScoreValue = 1;
                             break;
                         case 1:
-                            enemyShip = new NonFiringEnemy(new EnemyLevel2Sprite(), new EnemyLevel2SpriteAlternate());
+                            enemyShip = new NonFiringEnemy(new EnemyLevel2Sprite(), new EnemyLevel2SpriteAlternate(), this.canvas);
                             enemyShip.ScoreValue = 2;
                             break;
                         case 2:
-                            enemyShip = new FiringEnemy(new EnemyLevel3Sprite(), new EnemyLevel3Sprite());
+                            enemyShip = new FiringEnemy(new EnemyLevel3Sprite(), new EnemyLevel3SpriteAlternate(), this.canvas);
                             enemyShip.ScoreValue = 3;
                             break;
                         default:
-                            enemyShip = new FiringEnemy(new EnemyLevel3Sprite(), new EnemyLevel3Sprite());
+                            enemyShip = new FiringEnemy(new EnemyLevel3Sprite(), new EnemyLevel3SpriteAlternate(), this.canvas);
                             enemyShip.ScoreValue = 4;
                             break;
                     }
 
-                    this.canvas.Children.Add(enemyShip.Sprite);
+                    enemyShip.addEnemyToCanvas();
                     enemyShips.Add(enemyShip);
 
                     var xPosition = (i + 1) * spacing - enemyShip.Width / 2.0;
@@ -125,8 +122,7 @@ namespace Galaga.Model
         {
             foreach (var enemyShip in enemyShips)
             {
-                enemyShip.SwapSprites(this.tick);
-                this.tick++;
+                enemyShip.SwapSprites();
             }
         }
 

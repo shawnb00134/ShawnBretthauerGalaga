@@ -47,7 +47,7 @@ namespace Galaga.Model
         /// </summary>
         public void removePlayerLife()
         {
-            this.PlayerLives--;
+            this.PlayerLives = this.PlayerLives - 1;
         }
 
         #endregion

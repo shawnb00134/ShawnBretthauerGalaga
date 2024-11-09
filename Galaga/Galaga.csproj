@@ -131,6 +131,7 @@
     <Compile Include="Model\GameObject.cs" />
     <Compile Include="Model\Physics.cs" />
     <Compile Include="Model\Player.cs" />
+    <Compile Include="Model\PlayerManager.cs" />
     <Compile Include="Model\PlayerMissile.cs" />
     <Compile Include="View\GameCanvas.xaml.cs">
       <DependentUpon>GameCanvas.xaml</DependentUpon>
@@ -153,6 +154,9 @@
     </Compile>
     <Compile Include="View\Sprites\EnemyLevel3Sprite.xaml.cs">
       <DependentUpon>EnemyLevel3Sprite.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Sprites\EnemyLevel3SpriteAlternate.xaml.cs">
+      <DependentUpon>EnemyLevel3SpriteAlternate.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Sprites\EnemyMissile.xaml.cs">
       <DependentUpon>EnemyMissile.xaml</DependentUpon>
@@ -210,6 +214,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Sprites\EnemyLevel3Sprite.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Sprites\EnemyLevel3SpriteAlternate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

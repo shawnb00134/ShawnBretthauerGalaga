@@ -53,6 +53,8 @@ namespace Galaga.Model
             this.canvasHeight = canvas.Height;
             this.canvasWidth = canvas.Width;
 
+            this.player = new Player();
+
             this.missileManager = new MissileManager();
 
             this.enemyShips = new List<EnemyShip>();
@@ -104,7 +106,6 @@ namespace Galaga.Model
 
         private void createAndPlacePlayer()
         {
-            this.player = new Player();
             this.canvas.Children.Add(this.player.Sprite);
             this.listOfShips.Add(this.player);
             this.updatePlayerLives();
@@ -200,24 +201,25 @@ namespace Galaga.Model
                 switch (obj)
                 {
                     case Player _:
-                        //this.listOfShips.Remove(obj);
                         this.checkPlayerLives(obj);
                         break;
                     case EnemyShip enemyShip:
                         this.updateScore(enemyShip.ScoreValue);
                         this.enemyShips.Remove(enemyShip);
                         this.listOfShips.Remove(enemyShip);
+                        this.canvas.Children.Remove(obj.Sprite);
                         break;
                     case EnemyMissile _:
                         this.missiles.Remove(obj);
+                        this.canvas.Children.Remove(obj.Sprite);
                         break;
                     case PlayerMissile _:
                         this.missiles.Remove(obj);
                         this.missileManager.DecrementPlayerMissileCount();
+                        this.canvas.Children.Remove(obj.Sprite);
                         break;
                 }
-
-                this.canvas.Children.Remove(obj.Sprite);
+                
                 this.checkForEndGame();
             }
         }
@@ -226,17 +228,16 @@ namespace Galaga.Model
         {
             this.player.removePlayerLife();
             this.updatePlayerLives();
+
+            this.canvas.Children.Remove(playerObject.Sprite);
+            this.listOfShips.Remove(playerObject);
+
             if (this.player.PlayerLives > 0)
             {
-                //this.listOfShips.Remove(playerObject);
-                //this.canvas.Children.Remove(playerObject.Sprite);
-                this.placePlayerNearBottomOfBackgroundCentered();
-                //this.createAndPlacePlayer();
+                this.createAndPlacePlayer();
             }
             else
             {
-                this.listOfShips.Remove(playerObject);
-                this.canvas.Children.Remove(playerObject.Sprite);
                 this.checkForEndGame();
             }
         }

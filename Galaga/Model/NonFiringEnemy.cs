@@ -1,4 +1,5 @@
 ﻿using Galaga.View.Sprites;
+using Windows.UI.Xaml.Controls;
 
 namespace Galaga.Model
 {
@@ -12,6 +13,10 @@ namespace Galaga.Model
 
         private const int SpeedXDirection = 3;
         private const int SpeedYDirection = 0;
+
+        private readonly Canvas canvas;
+
+        private BaseSprite[] sprites;
 
         /// <summary>
         ///     The primary sprite/
@@ -42,12 +47,24 @@ namespace Galaga.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="NonFiringEnemy" /> class.
         /// </summary>
-        public NonFiringEnemy(BaseSprite mainSprite, BaseSprite alternateSprite) : base(mainSprite, alternateSprite)
+        public NonFiringEnemy(BaseSprite mainSprite, BaseSprite alternateSprite, Canvas canvas) : base(mainSprite, alternateSprite, canvas)
         {
             Sprite = mainSprite;
+            this.canvas = canvas;
             SetSpeed(SpeedXDirection, SpeedYDirection);
-            this.PrimarySprite = mainSprite;
-            this.SecondarySprite = alternateSprite;
+            this.sprites = new [] { mainSprite, alternateSprite };
+        }
+
+        /// <summary>
+        /// Adds the enemy sprites to the canvas and sets it initial visibility.
+        /// </summary>
+        public override void addEnemyToCanvas()
+        {
+            this.canvas.Children.Add(this.sprites[0]);
+            this.sprites[0].Visibility = Windows.UI.Xaml.Visibility.Visible;
+
+            this.canvas.Children.Add(this.sprites[1]);
+            this.sprites[1].Visibility = Windows.UI.Xaml.Visibility.Collapsed;
         }
 
         #endregion
@@ -55,23 +72,19 @@ namespace Galaga.Model
         /// <summary>
         ///     Swaps the sprites.
         /// </summary>
-        public new void SwapSprites(int tick)
+        public override void SwapSprites()
         {
-            //if (tick % 2 == 0)
-            //{
-            //    Sprite = this.PrimarySprite;
-            //}
-            //else
-            //{
-            //    Sprite = this.SecondarySprite;
-            //}
-            if (Sprite == this.PrimarySprite)
+            if (this.sprites[0].Visibility == Windows.UI.Xaml.Visibility.Visible)
             {
-                Sprite = this.SecondarySprite;
+                this.sprites[0].Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                this.sprites[1].Visibility = Windows.UI.Xaml.Visibility.Visible;
+                Sprite = this.sprites[1];
             }
             else
             {
-                Sprite = this.PrimarySprite;
+                this.sprites[0].Visibility = Windows.UI.Xaml.Visibility.Visible;
+                this.sprites[1].Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                Sprite = this.sprites[0];
             }
         }
     }
