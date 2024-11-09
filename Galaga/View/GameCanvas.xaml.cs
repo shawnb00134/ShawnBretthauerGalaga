@@ -17,6 +17,8 @@ namespace Galaga.View
         #region Data members
 
         private readonly GameManager gameManager;
+        private bool isMovingLeft;
+        private bool isMovingRight;
 
         #endregion
 
@@ -35,7 +37,11 @@ namespace Galaga.View
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
             ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(Width, Height));
 
+            this.isMovingLeft = false;
+            this.isMovingRight = false;
+
             Window.Current.CoreWindow.KeyDown += this.coreWindowOnKeyDown;
+            Window.Current.CoreWindow.KeyUp += this.coreWindowOnKeyUp;
 
             this.gameManager = new GameManager(this.canvas, this);
         }
@@ -49,16 +55,45 @@ namespace Galaga.View
             switch (args.VirtualKey)
             {
                 case VirtualKey.Left:
-                    this.gameManager.MovePlayerLeft();
+                    this.isMovingLeft = true;
                     break;
                 case VirtualKey.Right:
-                    this.gameManager.MovePlayerRight();
+                    this.isMovingRight = true;
                     break;
                 case VirtualKey.Space:
                     this.gameManager.FireMissile();
                     break;
             }
         }
+
+        private void coreWindowOnKeyUp(CoreWindow sender, KeyEventArgs args)
+        {
+            switch (args.VirtualKey)
+            {
+                case VirtualKey.Left:
+                    this.isMovingLeft = false;
+                    break;
+                case VirtualKey.Right:
+                    this.isMovingRight = false;
+                    break;
+            }
+        }
+
+        /// <summary>
+        ///     Determines whether [is moving left].
+        /// </summary>
+        /// <returns>
+        ///   <c>true</c> if [is moving left]; otherwise, <c>false</c>.
+        /// </returns>
+        public bool IsMovingLeft() => this.isMovingLeft;
+
+        /// <summary>
+        ///     Determines whether [is moving right].
+        /// </summary>
+        /// <returns>
+        ///   <c>true</c> if [is moving right]; otherwise, <c>false</c>.
+        /// </returns>
+        public bool IsMovingRight() => this.isMovingRight;
 
         /// <summary>
         ///     Displays the "You Win" text.

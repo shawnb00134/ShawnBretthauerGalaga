@@ -48,7 +48,7 @@ namespace Galaga.Model
         /// <param name="player">The player.</param>
         /// <param name="canvas">The canvas.</param>
         /// <returns></returns>
-        public GameObject FireMissile(Player player, Canvas canvas)
+        public GameObject FireMissile(GameObject player, Canvas canvas)
         {
             if (this.PlayerMissileCount < PlayerMissileLimit && this.delayTicker > MissileDelayLimit)
             {

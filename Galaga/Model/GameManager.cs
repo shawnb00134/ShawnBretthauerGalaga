@@ -14,21 +14,16 @@ namespace Galaga.Model
     {
         #region Data members
 
-        private const int PlayerSpeedBoundary = 3;
-        private const int TickTimer = 50;
-        private const int TickCounterReset = 40;
-        private const double PlayerOffsetFromBottom = 30;
-
         private readonly Canvas canvas;
-        private readonly double canvasHeight;
-        private readonly double canvasWidth;
         private readonly GameCanvas gameCanvas;
+        private readonly PlayerManager playerManager;
         private readonly MissileManager missileManager;
 
         private readonly DispatcherTimer timer;
         private int tickCounter;
+        private const int TickTimer = 50;
+        private const int TickCounterReset = 40;
 
-        private Player player;
         private int score;
 
         private List<EnemyShip> enemyShips;
@@ -49,28 +44,23 @@ namespace Galaga.Model
             this.canvas = canvas ?? throw new ArgumentNullException(nameof(canvas));
             this.gameCanvas = gameCanvas ?? throw new ArgumentNullException(nameof(gameCanvas));
 
-            this.canvas = canvas;
-            this.canvasHeight = canvas.Height;
-            this.canvasWidth = canvas.Width;
-
-            this.player = new Player();
-
+            this.playerManager = new PlayerManager(this.canvas);
             this.missileManager = new MissileManager();
-
             this.enemyShips = new List<EnemyShip>();
             this.listOfShips = new List<GameObject>();
             this.missiles = new List<GameObject>();
             this.enemyManager = new EnemyManager(this.canvas);
-
-            this.initializeGame();
-
+            this.physics = new Physics();
+            this.canvas = canvas;
+            
             this.tickCounter = 0;
             this.score = 0;
-            this.physics = new Physics();
 
             this.timer = new DispatcherTimer();
             this.timer.Interval = new TimeSpan(0, 0, 0, 0, TickTimer);
             this.timer.Tick += this.timer_Tick;
+
+            this.initializeGame();
             this.timer.Start();
             this.updateScore(this.score);
         }
@@ -81,6 +71,16 @@ namespace Galaga.Model
 
         private void timer_Tick(object sender, object e)
         {
+            if (this.gameCanvas.IsMovingLeft())
+            {
+                this.playerManager.MovePlayerLeft();
+            }
+            
+            if (this.gameCanvas.IsMovingRight())
+            {
+                this.playerManager.MovePlayerRight();
+            }
+
             this.enemyFireMissiles();
 
             this.enemyManager.MoveEnemyShips(this.enemyShips, this.tickCounter);
@@ -100,17 +100,9 @@ namespace Galaga.Model
 
         private void initializeGame()
         {
-            this.createAndPlacePlayer();
-            this.createEnemyShips();
-        }
-
-        private void createAndPlacePlayer()
-        {
-            this.canvas.Children.Add(this.player.Sprite);
-            this.listOfShips.Add(this.player);
+            this.playerManager.CreateAndPlacePlayer(this.listOfShips);
             this.updatePlayerLives();
-
-            this.placePlayerNearBottomOfBackgroundCentered();
+            this.createEnemyShips();
         }
 
         private void createEnemyShips()
@@ -123,23 +115,12 @@ namespace Galaga.Model
             }
         }
 
-        private void placePlayerNearBottomOfBackgroundCentered()
-        {
-            this.player.X = this.canvasWidth / 2 - this.player.Width / 2.0;
-            this.player.Y = this.canvasHeight - this.player.Height - PlayerOffsetFromBottom;
-        }
-
         /// <summary>
         ///     Moves the player left.
         /// </summary>
         public void MovePlayerLeft()
         {
-            if (this.player.X <= PlayerSpeedBoundary)
-            {
-                this.player.X = PlayerSpeedBoundary;
-            }
-
-            this.player.MoveLeft();
+            this.playerManager.MovePlayerLeft();
         }
 
         /// <summary>
@@ -147,12 +128,7 @@ namespace Galaga.Model
         /// </summary>
         public void MovePlayerRight()
         {
-            if (this.player.X >= this.canvasWidth - this.player.Width - PlayerSpeedBoundary)
-            {
-                this.player.X = this.canvasWidth - this.player.Width - PlayerSpeedBoundary;
-            }
-
-            this.player.MoveRight();
+            this.playerManager.MovePlayerRight();
         }
 
         /// <summary>
@@ -160,7 +136,9 @@ namespace Galaga.Model
         /// </summary>
         public void FireMissile()
         {
-            this.missiles.Add(this.missileManager.FireMissile(this.player, this.canvas));
+            //this.missiles.Add(this.missileManager.FireMissile(GameObject player, this.canvas));
+            //this.missiles.Add(this.playerManager.FirePlayerMissile());
+            this.missiles.Add(this.missileManager.FireMissile(this.playerManager.GetPlayer(), this.canvas));
         }
 
         private void moveMissiles()
@@ -201,7 +179,8 @@ namespace Galaga.Model
                 switch (obj)
                 {
                     case Player _:
-                        this.checkPlayerLives(obj);
+                        this.playerManager.CheckPlayerLives(obj, this.listOfShips);
+                        this.updatePlayerLives();
                         break;
                     case EnemyShip enemyShip:
                         this.updateScore(enemyShip.ScoreValue);
@@ -224,38 +203,16 @@ namespace Galaga.Model
             }
         }
 
-        private void checkPlayerLives(GameObject playerObject)
-        {
-            this.player.removePlayerLife();
-            this.updatePlayerLives();
-
-            this.canvas.Children.Remove(playerObject.Sprite);
-            this.listOfShips.Remove(playerObject);
-
-            if (this.player.PlayerLives > 0)
-            {
-                this.createAndPlacePlayer();
-            }
-            else
-            {
-                this.checkForEndGame();
-            }
-        }
-
         private void updateScore(int scoreValue)
         {
             this.score += scoreValue;
             this.gameCanvas.updateScoreBoard("Score: " + this.score);
         }
 
-        private void updatePlayerLives()
-        {
-            this.gameCanvas.updatePlayerLivesBoard("Lives: " + this.player.PlayerLives);
-        }
-
         private void checkForEndGame()
         {
-            if (!this.listOfShips.Contains(this.player))
+            //if (!this.listOfShips.Contains(Player))
+            if (!this.listOfShips.Any(ship => ship is Player))
             {
                 this.timer.Stop();
                 this.gameCanvas.DisplayYouLoseText();
@@ -266,6 +223,11 @@ namespace Galaga.Model
                 this.timer.Stop();
                 this.gameCanvas.DisplayYouWinText();
             }
+        }
+
+        private void updatePlayerLives()
+        {
+            this.gameCanvas.updatePlayerLivesBoard("Lives: " + this.playerManager.GetPlayerLivesCount());
         }
 
         #endregion
